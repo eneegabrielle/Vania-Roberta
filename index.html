@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>ALERTA CRÍTICO ⚠️</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        color: #00ff88;
+        font-family: "Courier New", monospace;
+    }
+
+    #terminal {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+        font-size: 18px;
+    }
+
+    .cursor {
+        display: inline-block;
+        background: #00ff88;
+        width: 10px;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50%, 100% { opacity: 1; }
+        25%, 75% { opacity: 0; }
+    }
+
+    /* Corações */
+    .heart {
+        position: absolute;
+        color: red;
+        font-size: 20px;
+        animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+        from {
+            transform: translateY(100vh);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-10vh);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div id="terminal">
+    <div id="text"></div><span class="cursor"></span>
+</div>
+
+<script>
+// TEXTO
+const message = `
+ALERTA CRÍTICO ⚠️
+
+Sistema comprometido!
+
+Causa:
+Vania Roberta invadiu todos os meus pensamentos ❤️
+
+Efeito colateral:
+- Coração acelerado
+- Sorrisos involuntários
+- Vontade absurda de te beijar
+
+Status:
+Sem intenção de corrigir esse "problema"
+`;
+
+let i = 0;
+function typeWriter() {
+    if (i < message.length) {
+        document.getElementById("text").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    }
+}
+typeWriter();
+
+// CORAÇÕES ANIMADOS
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+// cria vários corações continuamente
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
