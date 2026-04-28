@@ -5,51 +5,96 @@
 <title>ALERTA CRÍTICO ⚠️</title>
 
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: black;
-        color: #00ff88;
-        font-family: "Courier New", monospace;
-    }
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    color: #00ff88;
+    font-family: "Courier New", monospace;
+    text-align: center;
+}
 
-    #terminal {
-        position: relative;
-        z-index: 2;
-        padding: 20px;
-        font-size: 18px;
-    }
+/* Terminal */
+#terminal {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    font-size: 18px;
+}
 
-    .cursor {
-        display: inline-block;
-        background: #00ff88;
-        width: 10px;
-        animation: blink 1s infinite;
-    }
+/* Cursor */
+.cursor {
+    display: inline-block;
+    background: #00ff88;
+    width: 10px;
+    animation: blink 1s infinite;
+}
 
-    @keyframes blink {
-        0%, 50%, 100% { opacity: 1; }
-        25%, 75% { opacity: 0; }
-    }
+@keyframes blink {
+    0%,50%,100% {opacity:1;}
+    25%,75% {opacity:0;}
+}
 
-    /* Corações */
-    .heart {
-        position: absolute;
-        color: red;
-        font-size: 20px;
-        animation: floatUp linear infinite;
-    }
+/* BOTÃO (agora garantido visível) */
+#btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 18px;
+    background: transparent;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
 
-    @keyframes floatUp {
-        from {
-            transform: translateY(100vh);
-            opacity: 1;
-        }
-        to {
-            transform: translateY(-10vh);
-            opacity: 0;
-        }
-    }
+#btn:hover {
+    background: #00ff88;
+    color: black;
+}
+
+/* Mensagem */
+#secret {
+    display: none;
+    margin-top: 30px;
+    font-size: 20px;
+    color: #ff4d6d;
+}
+
+/* CORAÇÕES PEQUENOS */
+.heart {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    from {transform: translateY(100vh); opacity:1;}
+    to {transform: translateY(-10vh); opacity:0;}
+}
+
+/* CORAÇÃO GIGANTE */
+#bigHeart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 150px;
+    opacity: 0;
+    z-index: 3;
+}
+
+.explode {
+    animation: boom 1s ease-out forwards;
+}
+
+@keyframes boom {
+    0% {transform: translate(-50%, -50%) scale(0); opacity:0;}
+    50% {transform: translate(-50%, -50%) scale(1.5); opacity:1;}
+    100% {transform: translate(-50%, -50%) scale(2); opacity:0;}
+}
 </style>
 </head>
 
@@ -57,7 +102,19 @@
 
 <div id="terminal">
     <div id="text"></div><span class="cursor"></span>
+    
+    <br>
+    <button id="btn">CLIQUE AQUI ❤️</button>
+    
+    <div id="secret"></div>
 </div>
+
+<div id="bigHeart">❤️</div>
+
+<!-- Música (troca o link se quiser outra) -->
+<audio id="music">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 // TEXTO
@@ -88,7 +145,33 @@ function typeWriter() {
 }
 typeWriter();
 
-// CORAÇÕES ANIMADOS
+// BOTÃO CLICK
+document.getElementById("btn").addEventListener("click", function() {
+    
+    // mensagem
+    const msg = `
+💖 Vania Roberta...
+
+Você não é só um pensamento...
+Você é o motivo de todos eles.
+
+Eu te amo ❤️
+`;
+    const secret = document.getElementById("secret");
+    secret.style.display = "block";
+    secret.innerText = msg;
+
+    // tocar música
+    document.getElementById("music").play();
+
+    // explosão coração
+    const heart = document.getElementById("bigHeart");
+    heart.classList.remove("explode");
+    void heart.offsetWidth; // reset animação
+    heart.classList.add("explode");
+});
+
+// CORAÇÕES SUBINDO
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -100,12 +183,9 @@ function createHeart() {
 
     document.body.appendChild(heart);
 
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
+    setTimeout(() => heart.remove(), 6000);
 }
 
-// cria vários corações continuamente
 setInterval(createHeart, 300);
 </script>
 
